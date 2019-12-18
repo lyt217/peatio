@@ -1,5 +1,274 @@
-CONTEST
-<br>
-<%= @markets %>
-<%= @blockchains %>
-<%= @currencies %>
+<!-- <script src="js/sorttable.js"></script> -->
+<script>
+    window.onload = function() {
+setTimeout(function(){
+        (document.getElementById( 'total_1' )).click();
+        (document.getElementById( 'total_1' )).click();
+        (document.getElementById( 'total_1' )).style.pointerEvents = 'none';
+}, 0);
+setTimeout(function(){
+        (document.getElementById( 'total_2' )).click();
+        (document.getElementById( 'total_2' )).click();
+        (document.getElementById( 'total_2' )).style.pointerEvents = 'none';
+}, 0);
+setTimeout(function(){
+        (document.getElementById( 'total_3' )).click();
+        (document.getElementById( 'total_3' )).click();
+        (document.getElementById( 'total_3' )).style.pointerEvents = 'none';
+}, 0);
+setTimeout(function(){
+        (document.getElementById( 'total_4' )).click();
+        (document.getElementById( 'total_4' )).click();
+        (document.getElementById( 'total_4' )).style.pointerEvents = 'none';
+}, 0);
+    };
+</script>
+<style>
+  table thead {
+    -webkit-box-shadow: inset 0px -1px 0px rgba(93, 98, 255, 0.25);
+    box-shadow: inset 0px -1px 0px rgba(93, 98, 255, 0.25);
+  }
+  table {
+      counter-reset: rowNumber;
+  }
+  table tr > td:first-child {
+      counter-increment: rowNumber;
+      width: 10%;
+  }
+  table tr:first-child > th:first-child::before {
+      content: " ";
+/*      margin-right: 1.25em;*/
+  }
+  table tr:nth-child(2) > th:nth-child(1)::before {
+      content: " ";
+/*      margin-right: 1.25em;*/
+  }
+  table tr td:first-child::before {
+      content: counter(rowNumber);
+/*      min-width: 1em;*/
+/*      margin-right: 0.5em;*/
+}
+ table tr:first-child > td {
+    font-weight: bold;
+    font-size: 24px;
+}
+  </style>
+  <!-- TRADES -->
+      <% date = Date.today %>
+      <%# start_date = "2019-09-02" %>
+      <%# end_date = "2019-09-17" %>
+
+      <% start_date_month = Date.current.beginning_of_month %>
+      <% end_date_month = Date.current.end_of_month %>
+      <% start_date_week = Date.current.beginning_of_week %>
+      <% end_date_week = Date.current.end_of_week.strftime %>
+      <% start_date_year = Date.current.beginning_of_year %>
+      <% end_date_year = Date.current.end_of_year %>
+      <% start_date_day = Date.current.beginning_of_day %>
+      <% end_date_day = Date.current.end_of_day %>
+
+<div class="jumbotron subhead col-md-12" id="overview" style="margin-top: 40px; padding: 10px 30px !important;">
+      <div>
+        <h2>Leaders of the Month</h2>
+      </div>
+      <div>
+        Dates: <%= start_date_month.strftime("%m/%d/%y") %> - <%= end_date_month.strftime("%m/%d/%y") %>
+      </div>
+      <%# all_trades = Trade.all %>
+      <%# all_trades1 = Trade.all.where( "date(created_at) BETWEEN ? AND ? ", start_date, end_date).sort_by &:funds %>
+      <% all_trades = Trade.all.where( "date(created_at) BETWEEN ? AND ? ", start_date_month, end_date_month) %>
+      <% @trades_no1 = all_trades.group_by(&:ask_member_id) %>
+      <% @trades = all_trades.group_by(&:ask_member_id)  %>
+      <% @member = Member.pluck(:uid) %>
+
+<%# @trades_no1.each_pair.with_index(1).order("funds asc") do |(ask_member_id, funds, market_id, created_at), index| %>
+            <%#= @member[ask_member_id -1] %>
+            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+            <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum.sort %><br>
+<%# end %>
+            <table class="sortable" id="sortme" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="sorttable_nosort cr-wallet-header">Rank</th>
+                        <th class="sorttable_nosort cr-wallet-header">User ID</th>
+                        <th id="total_1" class="total_1">Total Traded</th>
+                    </tr>
+                </thead>
+                <tbody>
+<%# Trade.maximum("funds") %>
+
+
+<% @trades.each_pair.with_index(1) do |(ask_member_id, funds, market_id, created_at), index| %>
+<% next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+        <tr>
+          <td class="rank">
+          </td>
+          <td class="">
+            <%= @member[ask_member_id -1] %>
+          </td>
+          <td class="">
+            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+            <%= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+          </td>
+        </tr>
+      <% end %>
+</tbody>
+</table>
+</div>
+
+
+
+
+
+<div class="jumbotron subhead col-md-12" id="overview" style="margin-top: 40px; padding: 10px 30px !important;">
+
+      <div>
+        <h2>Leaders of the Day</h2>
+      </div>
+      <div>
+        Dates: <%= start_date_day.strftime("%m/%d/%y") %> - <%= end_date_day.strftime("%m/%d/%y") %>
+      </div>
+      <%# all_trades = Trade.all %>
+      <%# all_trades1 = Trade.all.where( "date(created_at) BETWEEN ? AND ? ", start_date, end_date).sort_by &:funds %>
+      <% all_trades = Trade.all.where( "date(created_at) BETWEEN ? AND ? ", start_date_day, end_date_day) %>
+      <% @trades_no1 = all_trades.group_by(&:ask_member_id) %>
+      <% @trades = all_trades.group_by(&:ask_member_id)  %>
+      <% @member = Member.pluck(:uid) %>
+
+<%# @trades_no1.each_pair.with_index(1).order("funds asc") do |(ask_member_id, funds, market_id, created_at), index| %>
+            <%#= @member[ask_member_id -1] %>
+            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+            <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum.sort %><br>
+<%# end %>
+
+            <table class="sortable" id="sortme" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="sorttable_nosort cr-wallet-header">Rank</th>
+                        <th class="sorttable_nosort cr-wallet-header">User ID</th>
+                        <th id="total_2" class="total_1">Total Traded</th>
+                    </tr>
+                </thead>
+                <tbody>
+<%# Trade.maximum("funds") %>
+
+
+<% @trades.each_pair.with_index(1) do |(ask_member_id, funds, market_id, created_at), index| %>
+<% next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+        <tr>
+          <td class="rank">
+          </td>
+          <td class="">
+            <%= @member[ask_member_id -1] %>
+          </td>
+          <td class="">
+            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+            <%= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+          </td>
+        </tr>
+      <% end %>
+</tbody>
+</table>
+</div>
+
+<div class="jumbotron subhead col-md-12" id="overview" style="margin-top: 40px; padding: 10px 30px !important;">
+      <div>
+        <h2>Leaders of the Week</h2>
+      </div>
+      <div>
+        Dates: <%= start_date_week %> - <%= end_date_week %>
+      </div>
+      <%# all_trades = Trade.all %>
+      <%# all_trades1 = Trade.all.where( "date(created_at) BETWEEN ? AND ? ", start_date, end_date).sort_by &:funds %>
+      <% all_trades = Trade.all.where( "date(created_at) BETWEEN ? AND ? ", start_date_week, end_date_week) %>
+      <% @trades_no1 = all_trades.group_by(&:ask_member_id) %>
+      <% @trades = all_trades.group_by(&:ask_member_id)  %>
+      <% @member = Member.pluck(:uid) %>
+
+<%# @trades_no1.each_pair.with_index(1).order("funds asc") do |(ask_member_id, funds, market_id, created_at), index| %>
+            <%#= @member[ask_member_id -1] %>
+            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+            <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum.sort %><br>
+<%# end %>
+
+            <table class="sortable" id="sortme" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="sorttable_nosort cr-wallet-header">Rank</th>
+                        <th class="sorttable_nosort cr-wallet-header">User ID</th>
+                        <th id="total_3" class="total_2">Total Traded</th>
+                    </tr>
+                </thead>
+                <tbody>
+<%# Trade.maximum("funds") %>
+
+
+<% @trades.each_pair.with_index(1) do |(ask_member_id, funds, market_id, created_at), index| %>
+<% next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+        <tr>
+          <td class="rank">
+          </td>
+          <td class="">
+            <%= @member[ask_member_id -1] %>
+          </td>
+          <td class="">
+            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+            <%= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+          </td>
+        </tr>
+      <% end %>
+</tbody>
+</table>
+</div>
+
+
+
+<div class="jumbotron subhead col-md-12" id="overview" style="margin-top: 40px; padding: 10px 30px !important;">
+      <div>
+        <h2>Leaders of the Year</h2>
+      </div>
+      <div>
+        Dates: <%= start_date_year.strftime("%m/%d/%y") %> - <%= end_date_year.strftime("%m/%d/%y") %>
+      </div>
+      <%# all_trades = Trade.all %>
+      <%# all_trades1 = Trade.all.where( "date(created_at) BETWEEN ? AND ? ", start_date, end_date).sort_by &:funds %>
+      <% all_trades = Trade.all.where( "date(created_at) BETWEEN ? AND ? ", start_date_year, end_date_year) %>
+      <% @trades_no1 = all_trades.group_by(&:ask_member_id) %>
+      <% @trades = all_trades.group_by(&:ask_member_id)  %>
+      <% @member = Member.pluck(:uid) %>
+
+<%# @trades_no1.each_pair.with_index(1).order("funds asc") do |(ask_member_id, funds, market_id, created_at), index| %>
+            <%#= @member[ask_member_id -1] %>
+            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+            <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum.sort %><br>
+<%# end %>
+
+            <table class="sortable" id="sortme" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="sorttable_nosort cr-wallet-header">Rank</th>
+                        <th class="sorttable_nosort cr-wallet-header">User ID</th>
+                        <th id="total_4" class="total_2">Total Traded</th>
+                    </tr>
+                </thead>
+                <tbody>
+<%# Trade.maximum("funds") %>
+
+
+<% @trades.each_pair.with_index(1) do |(ask_member_id, funds, market_id, created_at), index| %>
+<% next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+        <tr>
+          <td class="rank">
+          </td>
+          <td class="">
+            <%= @member[ask_member_id -1] %>
+          </td>
+          <td class="">
+            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+            <%= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+          </td>
+        </tr>
+      <% end %>
+</tbody>
+</table>
+</div>
