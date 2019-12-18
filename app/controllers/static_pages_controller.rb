@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class StaticPagesController < ApplicationController
-  # layout 'landing'
+  layout 'contest'
   # include Concerns::DisableCabinetUI
 
   def tos
@@ -18,15 +18,13 @@ class StaticPagesController < ApplicationController
   end
 
   def status
-    @currencies        = Currency.all.sort
+    @currencies = Currency.all.sort
     @blockchains = Blockchain.all
     @markets = Market.all
   end
 
   def contest
-	  @currencies = Currency.all
+    @currencies = Currency.all.sort
     @blockchains = Blockchain.all
-    @markets = Market.all
-    @trade = Trade.all
   end
 end
