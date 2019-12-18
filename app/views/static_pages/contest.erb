@@ -81,11 +81,6 @@ setTimeout(function(){
       <% @trades = all_trades.group_by(&:ask_member_id)  %>
       <% @member = Member.pluck(:uid) %>
 
-<%# @trades_no1.each_pair.with_index(1).order("funds asc") do |(ask_member_id, funds, market_id, created_at), index| %>
-            <%#= @member[ask_member_id -1] %>
-            <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
-            <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum.sort %><br>
-<%# end %>
             <table class="sortable" id="sortme" style="width:100%">
                 <thead>
                     <tr>
@@ -99,7 +94,7 @@ setTimeout(function(){
 
 
 <% @trades.each_pair.with_index(1) do |(ask_member_id, funds, market_id, created_at), index| %>
-<% next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+<%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
         <tr>
           <td class="rank">
           </td>
@@ -108,7 +103,9 @@ setTimeout(function(){
           </td>
           <td class="">
             <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
-            <%= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+            <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+            <%= '%.8f' % funds.map{|funds| funds.funds}.sum %>
+
           </td>
         </tr>
       <% end %>
@@ -154,7 +151,7 @@ setTimeout(function(){
 
 
 <% @trades.each_pair.with_index(1) do |(ask_member_id, funds, market_id, created_at), index| %>
-<% next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+<%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
         <tr>
           <td class="rank">
           </td>
@@ -163,7 +160,8 @@ setTimeout(function(){
           </td>
           <td class="">
             <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
-            <%= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+            <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+            <%= '%.8f' % funds.map{|funds| funds.funds}.sum %>
           </td>
         </tr>
       <% end %>
@@ -189,6 +187,7 @@ setTimeout(function(){
             <%#= @member[ask_member_id -1] %>
             <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
             <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum.sort %><br>
+            <%#= '%.8f' % funds.map{|funds| funds.funds}.sum %>
 <%# end %>
 
             <table class="sortable" id="sortme" style="width:100%">
@@ -204,7 +203,7 @@ setTimeout(function(){
 
 
 <% @trades.each_pair.with_index(1) do |(ask_member_id, funds, market_id, created_at), index| %>
-<% next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+<%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
         <tr>
           <td class="rank">
           </td>
@@ -256,7 +255,9 @@ setTimeout(function(){
 
 
 <% @trades.each_pair.with_index(1) do |(ask_member_id, funds, market_id, created_at), index| %>
-<% next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+<%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+<%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
+
         <tr>
           <td class="rank">
           </td>
@@ -265,7 +266,9 @@ setTimeout(function(){
           </td>
           <td class="">
             <%# next unless '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum > "0.00000000" %>
-            <%= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+            <%#= '%.8f' % funds.reject{|markets| markets.market_id != "gexeth" or markets.ask_member_id == markets.bid_member_id }.map{|funds| funds.funds }.sum %>
+            <%= '%.8f' % funds.map{|funds| funds.funds}.sum %>
+
           </td>
         </tr>
       <% end %>
