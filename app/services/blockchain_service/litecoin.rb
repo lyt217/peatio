@@ -16,6 +16,9 @@ module BlockchainService
       from_block   = blockchain.height || 0
       to_block     = [latest_block, from_block + blocks_limit].min
 
+
+
+      Rails.logger.info { "Will this start processing #{blockchain.key} block number is now #{blockchain.height} . FROM : #{from_block} / TO : #{to_block} " }
       (from_block..to_block).each do |block_id|
         Rails.logger.info { "Started processing #{blockchain.key} block number #{block_id}." }
 

@@ -36,7 +36,7 @@ describe BlockchainService::Litecoin do
     def request_block_body(block_hash)
       { jsonrpc: '1.0',
         method:  :getblock,
-        params:  [block_hash, 2]
+        params:  [block_hash, true]
       }.to_json
     end
 

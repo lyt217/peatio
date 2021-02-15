@@ -9,7 +9,7 @@ Signal.trap(:TERM) { running = false }
 while running
   Blockchain.where(status: :active).each do |bc|
     break unless running
-    Rails.logger.info { "Processing #{bc.name} blocks." }
+    Rails.logger.info { "Processing #{bc.name} #{bc.key} blocks." }
 
     BlockchainService[bc.key].process_blockchain
 
