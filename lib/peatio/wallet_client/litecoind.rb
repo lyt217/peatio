@@ -16,7 +16,7 @@ module WalletClient
       options.merge!(subtract_fee: false) unless options.has_key?(:subtract_fee)
 
       json_rpc(:settxfee, [options[:fee]]) if options.key?(:fee)
-      json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount, '', '', options[:subtract_fee]])
+      json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount, '', ''])
           .fetch('result')
           .yield_self(&method(:normalize_txid))
     end

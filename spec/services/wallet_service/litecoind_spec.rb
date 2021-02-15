@@ -59,7 +59,7 @@ describe WalletService::Litecoind do
       let :sendtoaddress_request do
         { jsonrpc: '1.0',
           method: 'sendtoaddress',
-          params: [hot_wallet.address, deposit.amount, '', '', true]
+          params: [hot_wallet.address, deposit.amount, '', '']
         }.to_json
       end
 
