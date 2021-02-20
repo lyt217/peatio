@@ -46,7 +46,7 @@ module API
                    allow_blank: false,
                    desc: 'Wallet address on the Blockchain.'
           # requires :currency,
-          #          type: String,
+          #          type: String,s
           #          values: { value: -> { Currency.coins.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
           #          desc: 'The currency code.'
           requires :amount,
