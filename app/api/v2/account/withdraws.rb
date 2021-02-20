@@ -65,7 +65,7 @@ module API
           #   error!({ errors: ['account.withdraw.invalid_otp'] }, 422)
           # end
 
-          if(params[:currency] == 'KRW')
+          if(params[:currency] == 'krw')
             currency = Currency.find(params[:currency])
             withdraw = ::Withdraws::Fiat.new \
               sum:            params[:amount],
