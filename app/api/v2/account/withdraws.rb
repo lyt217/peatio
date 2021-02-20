@@ -65,16 +65,29 @@ module API
           #   error!({ errors: ['account.withdraw.invalid_otp'] }, 422)
           # end
 
-          currency = Currency.find(params[:currency])
-          withdraw = ::Withdraws::Coin.new \
-            sum:            params[:amount],
-            member:         current_user,
-            currency:       currency,
-            rid:            params[:rid],
-            note:           params[:note]
-          withdraw.save!
-          withdraw.with_lock { withdraw.submit! }
-          present withdraw, with: API::V2::Entities::Withdraw
+          if(params[:currency] == 'KRW')
+            currency = Currency.find(params[:currency])
+            withdraw = ::Withdraws::Fiat.new \
+              sum:            params[:amount],
+              member:         current_user,
+              currency:       currency,
+              rid:            params[:rid],
+              note:           params[:note]
+            withdraw.save!
+            withdraw.with_lock { withdraw.submit! }
+            present withdraw, with: API::V2::Entities::Withdraw
+          else
+            currency = Currency.find(params[:currency])
+            withdraw = ::Withdraws::Coin.new \
+              sum:            params[:amount],
+              member:         current_user,
+              currency:       currency,
+              rid:            params[:rid],
+              note:           params[:note]
+            withdraw.save!
+            withdraw.with_lock { withdraw.submit! }
+            present withdraw, with: API::V2::Entities::Withdraw
+          end
 
         rescue ::Account::AccountError => e
           report_exception_to_screen(e)
