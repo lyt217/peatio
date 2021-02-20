@@ -37,18 +37,18 @@ module API
 
         desc 'Creates new crypto withdrawal.'
         params do
-          requires :otp,
-                   type: { value: Integer, message: 'account.withdraw.non_integer_otp' },
-                   allow_blank: false,
-                   desc: 'OTP to perform action'
+          # requires :otp,
+          #          type: { value: Integer, message: 'account.withdraw.non_integer_otp' },
+          #          allow_blank: false,
+          #          desc: 'OTP to perform action'
           requires :rid,
                    type: String,
                    allow_blank: false,
                    desc: 'Wallet address on the Blockchain.'
-          requires :currency,
-                   type: String,
-                   values: { value: -> { Currency.coins.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
-                   desc: 'The currency code.'
+          # requires :currency,
+          #          type: String,
+          #          values: { value: -> { Currency.coins.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
+          #          desc: 'The currency code.'
           requires :amount,
                    type: { value: BigDecimal, message: 'account.withdraw.non_decimal_amount' },
                    values: { value: ->(v) { v.try(:positive?) }, message: 'account.withdraw.non_positive_amount' },
@@ -61,9 +61,9 @@ module API
         post '/withdraws' do
           withdraw_api_must_be_enabled!
 
-          unless Vault::TOTP.validate?(current_user.uid, params[:otp])
-            error!({ errors: ['account.withdraw.invalid_otp'] }, 422)
-          end
+          # unless Vault::TOTP.validate?(current_user.uid, params[:otp])
+          #   error!({ errors: ['account.withdraw.invalid_otp'] }, 422)
+          # end
 
           currency = Currency.find(params[:currency])
           withdraw = ::Withdraws::Coin.new \
